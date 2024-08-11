@@ -2,6 +2,7 @@
 using desafioCheckList.Core.Core;
 using desafioCheckList.DAO.Data;
 using System.Data.SqlClient;
+using static desafioCheckList.Core.Core.InspectionList;
 
 namespace desafioCheckList.DAO.DAO
 {
@@ -26,6 +27,20 @@ namespace desafioCheckList.DAO.DAO
 			WHERE
 				Id = @Id", new { Id = id }))
             .FirstOrDefault();
+        }
+        public async Task<List<InspectionList>?> List(FilterInspectionList filter)
+        {
+            return (await _connDbDesafioCheckList.QueryAsync<InspectionList>(@"
+			SELECT
+			    Id,
+				Code,
+				Description
+			FROM 
+                dbo.InspectionList
+			WHERE
+				(@Code IS NULL OR Code = @Code)
+			ORDER BY Id DESC", filter))
+            .ToList();
         }
     }
 }
