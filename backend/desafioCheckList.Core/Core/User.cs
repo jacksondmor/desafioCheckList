@@ -8,5 +8,9 @@
         public required string Password { get; set; }
         public required DateTime DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
+        public class FilterUser
+        {
+            public string? Login { get; set; }
+        }
     }
 }

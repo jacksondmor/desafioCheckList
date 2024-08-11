@@ -1,4 +1,5 @@
 ﻿using desafioCheckList.Core.Core;
+using static desafioCheckList.Core.Core.CheckList;
 
 namespace desafioCheckList.DAO.DAO
 {
@@ -8,5 +9,6 @@ namespace desafioCheckList.DAO.DAO
         Task<CheckList?> Update(CheckList client);
         Task<bool> Delete(int id);
         Task<CheckList?> GetById(int id);
+        Task<List<CheckList>?> List(FilterCheckList filter);
     }
 }

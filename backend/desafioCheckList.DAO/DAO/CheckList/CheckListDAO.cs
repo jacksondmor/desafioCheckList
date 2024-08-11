@@ -2,6 +2,7 @@
 using desafioCheckList.DAO.Data;
 using System.Data.SqlClient;
 using Dapper;
+using static desafioCheckList.Core.Core.CheckList;
 
 namespace desafioCheckList.DAO.DAO
 {
@@ -90,6 +91,33 @@ namespace desafioCheckList.DAO.DAO
 			WHERE
 				Id = @Id", new { Id = id }))
             .FirstOrDefault();
+        }
+        public async Task<List<CheckList>?> List(FilterCheckList filter)
+        {
+            return (await _connDbDesafioCheckList.QueryAsync<CheckList>(@"
+			SELECT
+                Id,
+                IdUser,
+                IdVehicleType,
+                Plate,
+                DriverName,
+                Approver,
+                Status,
+                Approved,
+                GeneralObservation,
+                DateCreated,
+                DateUpdated
+			FROM 
+                dbo.CheckList
+			WHERE
+				(@IdUser IS NULL OR IdUser = @IdUser) AND
+                (@IdVehicleType IS NULL OR IdVehicleType = @IdVehicleType) AND
+                (@Plate IS NULL OR Plate = @Plate) AND
+                (@Approver IS NULL OR Approver = @Approver) AND
+                (@Status IS NULL OR Status = @Status) AND
+                (@Approved IS NULL OR Approved = @Approved)
+			ORDER BY Id DESC", filter))
+            .ToList();
         }
     }
 }

@@ -13,5 +13,14 @@
         public string? GeneralObservation { get; set; }
         public required DateTime DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
+        public class FilterCheckList
+        {
+            public int? IdUser { get; set; }
+            public int? IdVehicleType { get; set; }
+            public string? Plate { get; set; }
+            public string? Approver { get; set; }
+            public string? Status { get; set; }
+            public int? Approved { get; set; }
+        }
     }
 }

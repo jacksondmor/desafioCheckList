@@ -9,5 +9,11 @@
         public required string Observation { get; set; }
         public required DateTime DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
+        public class FilterCheckListItem
+        {
+            public int? IdCheckList { get; set; }
+            public int? IdVehicle_InspectionList { get; set; }
+            public int? Status { get; set; }
+        }
     }
 }

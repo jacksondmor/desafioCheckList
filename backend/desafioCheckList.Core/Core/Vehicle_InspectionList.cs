@@ -9,5 +9,11 @@
         public required DateTime DateCreated { get; set; }
         public DateTime? DateUpdated { get; set; }
         public int Actived { get; set; }
+
+        public class FilterVehicle_InspectionList
+        {
+            public int? IdVehicleType { get; set; }
+            public int? IdInspectionList { get; set; }
+        }
     }
 }

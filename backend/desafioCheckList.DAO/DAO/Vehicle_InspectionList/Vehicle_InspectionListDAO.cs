@@ -2,6 +2,7 @@
 using desafioCheckList.Core.Core;
 using desafioCheckList.DAO.Data;
 using System.Data.SqlClient;
+using static desafioCheckList.Core.Core.Vehicle_InspectionList;
 
 namespace desafioCheckList.DAO.DAO
 {
@@ -30,6 +31,25 @@ namespace desafioCheckList.DAO.DAO
 			WHERE
 				Id = @Id", new { Id = id }))
             .FirstOrDefault();
+        }
+        public async Task<List<Vehicle_InspectionList>?> List(FilterVehicle_InspectionList filter)
+        {
+            return (await _connDbDesafioCheckList.QueryAsync<Vehicle_InspectionList>(@"
+			SELECT
+		        Id,
+                IdVehicleType,
+                IdInspectionList,
+                Parameter,
+                DateCreated,
+                DateUpdated,
+                Actived
+			FROM 
+                dbo.Vehicle_InspectionList
+			WHERE
+				(@IdVehicleType IS NULL OR IdVehicleType = @IdVehicleType) AND
+				(@IdInspectionList IS NULL OR IdInspectionList = @IdInspectionList)
+			ORDER BY Id DESC", filter))
+            .ToList();
         }
     }
 }
