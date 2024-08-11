@@ -1,0 +1,31 @@
+﻿using Dapper;
+using desafioCheckList.Core.Core;
+using desafioCheckList.DAO.Data;
+using System.Data.SqlClient;
+
+namespace desafioCheckList.DAO.DAO
+{
+    public class InspectionListDAO : IInspectionListDAO
+    {
+        private readonly SqlConnection _connDbDesafioCheckList;
+
+        public InspectionListDAO(IDbConnectionFactory dbConnectionFactory)
+        {
+            _connDbDesafioCheckList = dbConnectionFactory.GetConnDbDesafioCheckList();
+        }
+
+        public async Task<InspectionList?> GetById(int id)
+        {
+            return (await _connDbDesafioCheckList.QueryAsync<InspectionList>(@"
+			SELECT
+			    Id,
+				Code,
+				Description
+			FROM 
+                dbo.InspectionList
+			WHERE
+				Id = @Id", new { Id = id }))
+            .FirstOrDefault();
+        }
+    }
+}
