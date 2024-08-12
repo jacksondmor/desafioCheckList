@@ -1,4 +1,4 @@
-﻿namespace desafioCheckList.Core.Core
+﻿namespace desafioCheckList.Core
 {
     public class InspectionList
     {

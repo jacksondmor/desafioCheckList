@@ -76,7 +76,7 @@ CREATE TABLE dbo.CheckList(
 	Plate VARCHAR(7) NOT NULL,
 	DriverName VARCHAR(50) NOT NULL,
 	Approver VARCHAR(50) NOT NULL,
-	Status CHAR(1) DEFAULT '', -- "I" - In progress; "A" - Awaiting Approval; "F" - Finished;
+	Status CHAR(1) DEFAULT 'I', -- "I" - In progress; "A" - Awaiting Approval; "F" - Finished;
 	Approved INT, -- 1 - Yes; 0 - No 
 	GeneralObservation VARCHAR(255),
 	DateCreated DATETIME DEFAULT GETDATE(),

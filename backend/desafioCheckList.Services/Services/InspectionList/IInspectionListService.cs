@@ -1,8 +1,8 @@
-﻿using desafioCheckList.Core.Core;
+﻿using desafioCheckList.Core;
 using FluentResults;
-using static desafioCheckList.Core.Core.InspectionList;
+using static desafioCheckList.Core.InspectionList;
 
-namespace desafioCheckList.Services.Services
+namespace desafioCheckList.Services
 {
     public interface IInspectionListService
     {        

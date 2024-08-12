@@ -1,9 +1,9 @@
-﻿using desafioCheckList.Core.Core;
-using desafioCheckList.DAO.DAO;
+﻿using desafioCheckList.Core;
+using desafioCheckList.DAO;
 using FluentResults;
-using static desafioCheckList.Core.Core.Vehicle_InspectionList;
+using static desafioCheckList.Core.Vehicle_InspectionList;
 
-namespace desafioCheckList.Services.Services
+namespace desafioCheckList.Services
 {   
     public class Vehicle_InspectionListService : IVehicle_InspectionListService
     {

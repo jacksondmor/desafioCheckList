@@ -1,9 +1,9 @@
-﻿using desafioCheckList.Core.Core;
+﻿using desafioCheckList.Core;
 using FluentResults;
-using static desafioCheckList.Core.Core.VehicleType;
+using static desafioCheckList.Core.VehicleType;
 
-namespace desafioCheckList.Services.Services
-{
+namespace desafioCheckList.Services
+{ 
     public interface IVehicleTypeService
     {
         Task<Result<VehicleType>> GetById(int id);

@@ -1,7 +1,7 @@
-﻿using desafioCheckList.Core.Core;
-using static desafioCheckList.Core.Core.Vehicle_InspectionList;
+﻿using desafioCheckList.Core;
+using static desafioCheckList.Core.Vehicle_InspectionList;
 
-namespace desafioCheckList.DAO.DAO
+namespace desafioCheckList.DAO
 {
     public interface IVehicle_InspectionListDAO
     {

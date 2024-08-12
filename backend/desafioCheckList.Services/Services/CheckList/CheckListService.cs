@@ -1,19 +1,31 @@
-﻿using desafioCheckList.Core.Core;
-using desafioCheckList.DAO.DAO;
+﻿using desafioCheckList.Core;
+using desafioCheckList.DAO;
 using FluentResults;
-using static desafioCheckList.Core.Core.CheckList;
-using static desafioCheckList.Core.Core.CheckListItem;
+using static desafioCheckList.Core.CheckList;
+using static desafioCheckList.Core.CheckListItem;
+using static desafioCheckList.Core.Vehicle_InspectionList;
 
-namespace desafioCheckList.Services.Services
+namespace desafioCheckList.Services
 {
     public class CheckListService : ICheckListService
     {
         private readonly ICheckListDAO _checkListDAO;
-        public CheckListService(ICheckListDAO checkListDAO) {
+        private readonly ICheckListItemDAO _checkListItemDAO;
+        private readonly IVehicle_InspectionListDAO _vehicle_InspectionListDAO;
+        public CheckListService(ICheckListDAO checkListDAO, ICheckListItemDAO checkListItemDAO, IVehicle_InspectionListDAO vehicle_InspectionListDAO) {
             _checkListDAO = checkListDAO;
+            _checkListItemDAO = checkListItemDAO;
+            _vehicle_InspectionListDAO = vehicle_InspectionListDAO;
         }
-        public async Task<Result<CheckList>> Insert(CheckList checkList)
+        public async Task<Result<CheckList>> Insert(InsertCheckList checkList)
         {
+            List<Vehicle_InspectionList>? lstVehicle_InspectionListDb = await _vehicle_InspectionListDAO.List(new FilterVehicle_InspectionList { IdVehicleType = checkList.IdVehicleType });
+
+            if (lstVehicle_InspectionListDb is null || lstVehicle_InspectionListDb?.Count == 0)
+            {
+                return Result.Fail(new Error("Veículo não possui lista de inspeção para checklist").WithMetadata("ErrorCode", 404));
+            }
+
             CheckList? checkListDb = await _checkListDAO.Insert(checkList);
 
             if (checkListDb is null)
@@ -21,9 +33,24 @@ namespace desafioCheckList.Services.Services
                 return Result.Fail("Falha na requisição! Verifique e tente novamente.");
             }
 
+            foreach (var insp in lstVehicle_InspectionListDb)
+            {
+                await _checkListItemDAO.Insert(new CheckListItem
+                {
+                    IdCheckList = checkListDb.Id,
+                    IdVehicle_InspectionList = insp.Id,
+                    Status = null,
+                    Observation = null,
+                    DateCreated = null,
+                    DateUpdated = null
+                });
+            }
+
+            checkListDb.checkListItems = await _checkListItemDAO.List(new FilterCheckListItem { IdCheckList = checkListDb.Id });
+
             return Result.Ok(checkListDb);
         }
-        public async Task<Result> Update(int id, CheckList checkList)
+        public async Task<Result> Update(int id, UpdateCheckList checkList)
         {
             CheckList? checkListDb = await _checkListDAO.GetById(id);
             if (checkListDb is null)
@@ -31,7 +58,7 @@ namespace desafioCheckList.Services.Services
                 return Result.Fail(new Error("CheckList não encontrado").WithMetadata("ErrorCode", 404));
             }
 
-            CheckList? checkListUpdate = await _checkListDAO.Update(checkList);
+            UpdateCheckList? checkListUpdate = await _checkListDAO.Update(id, checkList);
 
             if (checkListUpdate is null)
             {
@@ -62,8 +89,10 @@ namespace desafioCheckList.Services.Services
 
             if (checkListDb is null)
             {
-                return Result.Fail(new Error("Lista de Inspeções do CheckList não encontrada").WithMetadata("ErrorCode", 404));
+                return Result.Fail(new Error("CheckList não encontrada").WithMetadata("ErrorCode", 404));
             }
+
+            checkListDb.checkListItems = await _checkListItemDAO.List(new FilterCheckListItem { IdCheckList = checkListDb.Id });
 
             return Result.Ok(checkListDb);
         }
@@ -73,8 +102,13 @@ namespace desafioCheckList.Services.Services
 
             if (lstCheckListDb is null || lstCheckListDb?.Count == 0)
             {
-                return Result.Fail(new Error("Lista de Inspeções do CheckList não encontrada").WithMetadata("ErrorCode", 404));
+                return Result.Fail(new Error("CheckList não encontrada").WithMetadata("ErrorCode", 404));
             }
+
+            foreach (var item in lstCheckListDb)
+            {
+                item.checkListItems = await _checkListItemDAO.List(new FilterCheckListItem { IdCheckList = item.Id });
+            }            
 
             return Result.Ok(lstCheckListDb);
         }

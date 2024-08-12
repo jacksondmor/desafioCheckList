@@ -1,10 +1,10 @@
 ﻿using Dapper;
-using desafioCheckList.Core.Core;
+using desafioCheckList.Core;
 using desafioCheckList.DAO.Data;
 using System.Data.SqlClient;
-using static desafioCheckList.Core.Core.CheckListItem;
+using static desafioCheckList.Core.CheckListItem;
 
-namespace desafioCheckList.DAO.DAO
+namespace desafioCheckList.DAO
 {
     public class CheckListItemDAO : ICheckListItemDAO
     {
@@ -31,14 +31,14 @@ namespace desafioCheckList.DAO.DAO
 				@IdVehicle_InspectionList,
 				@Status, 
                 @Observation,
-                @DateCreated,
+                GETDATE(),
                 @DateUpdated
 			); SELECT SCOPE_IDENTITY();", item))
             .FirstOrDefault();
 
             return item;
         }
-        public async Task<CheckListItem?> Update(CheckListItem item)
+        public async Task<UpdateCheckListItem?> Update(int id, UpdateCheckListItem item)
         {
             await _connDbDesafioCheckList.ExecuteAsync(@"
             UPDATE 
@@ -48,7 +48,7 @@ namespace desafioCheckList.DAO.DAO
 			    Observation = @Observation, 
                 DateUpdated = getDate()
             WHERE
-	            Id = @Id", item);
+	            Id = @Id", new { Status = item.Status, Observation = item.Observation, Id = id });
 
             return item;
         }

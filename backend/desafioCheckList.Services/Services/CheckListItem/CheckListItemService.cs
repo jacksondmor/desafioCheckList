@@ -1,9 +1,10 @@
-﻿using desafioCheckList.Core.Core;
-using desafioCheckList.DAO.DAO;
+﻿using desafioCheckList.Core;
+using desafioCheckList.DAO;
 using FluentResults;
-using static desafioCheckList.Core.Core.CheckListItem;
+using System.ComponentModel;
+using static desafioCheckList.Core.CheckListItem;
 
-namespace desafioCheckList.Services.Services
+namespace desafioCheckList.Services
 {
     public class CheckListItemService : ICheckListItemService
     {
@@ -27,7 +28,7 @@ namespace desafioCheckList.Services.Services
 
             return Result.Ok(itemDb);
         }
-        public async Task<Result> Update(int id, string login, CheckListItem item)
+        public async Task<Result> Update(int id, string login, UpdateCheckListItem item)
         {
             CheckListItem? itemDb = await _checkListItemDAO.GetById(id);
             if (itemDb is null)
@@ -41,14 +42,14 @@ namespace desafioCheckList.Services.Services
             
             if (userDb.Login != login)
             {
-                return Result.Fail("Este CheckList já foi iniciado por outro usuário!");
+                return Result.Fail(new Error("Este CheckList já foi iniciado por outro usuário!").WithMetadata("ErrorCode", 404));
             }
 
-            CheckListItem? itemUpdate = await _checkListItemDAO.Update(item);
+            UpdateCheckListItem? itemUpdate = await _checkListItemDAO.Update(id, item);
 
             if (itemUpdate is null)
             {
-                return Result.Fail("Falha na requisição! Verifique e tente novamente.");
+                return Result.Fail(new Error("Falha na requisição! Verifique e tente novamente.").WithMetadata("ErrorCode", 404));
             }
 
             return Result.Ok();

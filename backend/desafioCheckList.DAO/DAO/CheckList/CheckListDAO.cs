@@ -1,10 +1,10 @@
-﻿using desafioCheckList.Core.Core;
+﻿using desafioCheckList.Core;
 using desafioCheckList.DAO.Data;
 using System.Data.SqlClient;
 using Dapper;
-using static desafioCheckList.Core.Core.CheckList;
+using static desafioCheckList.Core.CheckList;
 
-namespace desafioCheckList.DAO.DAO
+namespace desafioCheckList.DAO
 {
     public class CheckListDAO : ICheckListDAO
     {
@@ -15,40 +15,45 @@ namespace desafioCheckList.DAO.DAO
             _connDbDesafioCheckList = dbConnectionFactory.GetConnDbDesafioCheckList();
         }
 
-        public async Task<CheckList?> Insert(CheckList item)
+        public async Task<CheckList?> Insert(InsertCheckList insertItem)
         {
-            item.Id = (await _connDbDesafioCheckList.QueryAsync<int>(@"
+            CheckList? item = (await _connDbDesafioCheckList.QueryAsync<CheckList>(@"
 			INSERT INTO dbo.CheckList (
-				IIdUser,
+				IdUser,
                 IdVehicleType,
                 Plate,
                 DriverName,
                 Approver,
-                Status,
-                Approved,
-                GeneralObservation,
-                DateCreated,
-                DateUpdated
+                GeneralObservation
 			)
 			VALUES
 			(
-				@IIdUser,
+				@IdUser,
                 @IdVehicleType,
                 @Plate,
                 @DriverName,
                 @Approver,
-                @Status,
-                @Approved,
-                @GeneralObservation,
-                @DateCreated,
-                @DateUpdated
-			); SELECT SCOPE_IDENTITY();", item))
+                @GeneralObservation
+			); SELECT
+                    Id,
+                    IdUser,
+                    IdVehicleType,
+                    Plate,
+                    DriverName,
+                    Approver,
+                    Status,
+                    Approved,
+                    GeneralObservation,
+                    DateCreated,
+                    DateUpdated
+                FROM dbo.CheckList
+                WHERE Id = SCOPE_IDENTITY();", insertItem))
             .FirstOrDefault();
 
             return item;
         }
 
-        public async Task<CheckList?> Update(CheckList item)
+        public async Task<UpdateCheckList?> Update(int id, UpdateCheckList item)
         {
             await _connDbDesafioCheckList.ExecuteAsync(@"
             UPDATE 
@@ -58,7 +63,7 @@ namespace desafioCheckList.DAO.DAO
 			    Approved = @Approved, 
                 DateUpdated = getDate()
             WHERE
-	            Id = @Id", item);
+	            Id = @Id", new { Status = item.Status, Approved = item.Approved, Id = id }) ;
 
             return item;
         }

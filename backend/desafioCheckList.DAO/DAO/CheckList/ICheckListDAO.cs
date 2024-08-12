@@ -1,12 +1,12 @@
-﻿using desafioCheckList.Core.Core;
-using static desafioCheckList.Core.Core.CheckList;
+﻿using desafioCheckList.Core;
+using static desafioCheckList.Core.CheckList;
 
-namespace desafioCheckList.DAO.DAO
+namespace desafioCheckList.DAO
 {
     public interface ICheckListDAO
     {
-        Task<CheckList?> Insert(CheckList client);
-        Task<CheckList?> Update(CheckList client);
+        Task<CheckList?> Insert(InsertCheckList client);
+        Task<UpdateCheckList?> Update(int id, UpdateCheckList client);
         Task<bool> Delete(int id);
         Task<CheckList?> GetById(int id);
         Task<List<CheckList>?> List(FilterCheckList filter);

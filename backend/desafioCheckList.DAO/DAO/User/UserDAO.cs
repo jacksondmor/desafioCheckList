@@ -1,10 +1,10 @@
 ﻿using Dapper;
-using desafioCheckList.Core.Core;
+using desafioCheckList.Core;
 using desafioCheckList.DAO.Data;
 using System.Data.SqlClient;
-using static desafioCheckList.Core.Core.User;
+using static desafioCheckList.Core.User;
 
-namespace desafioCheckList.DAO.DAO
+namespace desafioCheckList.DAO
 {
     public class UserDAO : IUserDAO
     {
@@ -25,7 +25,7 @@ namespace desafioCheckList.DAO.DAO
                 DateCreated,
                 DateUpdated
 			FROM 
-                dbo.User
+                dbo." + "\u0022" + "User" + "\u0022" + @"
 			WHERE
 				Id = @Id", new { Id = id }))
             .FirstOrDefault();
@@ -41,8 +41,8 @@ namespace desafioCheckList.DAO.DAO
                 DateCreated,
                 DateUpdated
 			FROM 
-                dbo.User
-			WHERE
+                dbo." + "\u0022" + "User" + "\u0022" + @"
+            WHERE
 				(@Login IS NULL OR Login = @Login)
 			ORDER BY Id DESC", filter))
             .ToList();

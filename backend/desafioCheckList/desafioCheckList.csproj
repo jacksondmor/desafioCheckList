@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\desafioCheckList.DAO\desafioCheckList.DAO.csproj" />
+    <ProjectReference Include="..\desafioCheckList.Services\desafioCheckList.Services.csproj" />
   </ItemGroup>
 
 </Project>

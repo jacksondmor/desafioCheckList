@@ -1,13 +1,13 @@
-﻿using desafioCheckList.Core.Core;
+﻿using desafioCheckList.Core;
 using FluentResults;
-using static desafioCheckList.Core.Core.CheckListItem;
+using static desafioCheckList.Core.CheckListItem;
 
-namespace desafioCheckList.Services.Services
+namespace desafioCheckList.Services
 {
     public interface ICheckListItemService
     {
         Task<Result<CheckListItem>> Insert(CheckListItem item);
-        Task<Result> Update(int id, string login, CheckListItem item);
+        Task<Result> Update(int id, string login, UpdateCheckListItem item);
         Task<Result<CheckListItem>> GetById(int id);
         Task<Result<List<CheckListItem>>> List(FilterCheckListItem filter);
     }

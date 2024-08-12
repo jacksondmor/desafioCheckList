@@ -1,11 +1,10 @@
 ﻿using Dapper;
-using desafioCheckList.Core.Core;
+using desafioCheckList.Core;
 using desafioCheckList.DAO.Data;
 using System.Data.SqlClient;
-using static desafioCheckList.Core.Core.Vehicle_InspectionList;
-using static desafioCheckList.Core.Core.VehicleType;
+using static desafioCheckList.Core.VehicleType;
 
-namespace desafioCheckList.DAO.DAO.DAO
+namespace desafioCheckList.DAO
 {
     public class VehicleTypeDAO : IVehicleTypeDAO
     {

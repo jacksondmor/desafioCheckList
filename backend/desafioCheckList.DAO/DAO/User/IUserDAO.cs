@@ -1,7 +1,7 @@
-﻿using desafioCheckList.Core.Core;
-using static desafioCheckList.Core.Core.User;
+﻿using desafioCheckList.Core;
+using static desafioCheckList.Core.User;
 
-namespace desafioCheckList.DAO.DAO
+namespace desafioCheckList.DAO
 {
     public interface IUserDAO
     {

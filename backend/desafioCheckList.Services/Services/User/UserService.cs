@@ -1,9 +1,9 @@
-﻿using desafioCheckList.Core.Core;
-using desafioCheckList.DAO.DAO;
+﻿using desafioCheckList.Core;
+using desafioCheckList.DAO;
 using FluentResults;
-using static desafioCheckList.Core.Core.User;
+using static desafioCheckList.Core.User;
 
-namespace desafioCheckList.Services.Services
+namespace desafioCheckList.Services
 {
     public class UserService : IUserService
     {
