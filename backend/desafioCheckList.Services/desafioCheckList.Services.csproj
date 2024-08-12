@@ -1,16 +1,17 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <PackageReference Include="FluentResults" Version="3.16.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\desafioCheckList.Core\desafioCheckList.Core.csproj" />
     <ProjectReference Include="..\desafioCheckList.DAO\desafioCheckList.DAO.csproj" />
   </ItemGroup>
 
