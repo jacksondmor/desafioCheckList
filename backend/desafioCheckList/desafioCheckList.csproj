@@ -10,8 +10,4 @@
     <Folder Include="Controllers\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\desafioCheckList.DAO\desafioCheckList.DAO.csproj" />
-  </ItemGroup>
-
 </Project>
