@@ -1,6 +1,6 @@
 @desafioCheckList_HostAddress = http://localhost:5067
 
-GET {{desafioCheckList_HostAddress}}/swagger/index.html
+GET {{desafioCheckList_HostAddress}}/weatherforecast/
 Accept: application/json
 
 ###
