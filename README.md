@@ -1,4 +1,4 @@
-# desafioCheckList
+# Desafio CheckList - Gestran
 
 # Instruções para Criação de Banco de Dados no SQL Server
 
